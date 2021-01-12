@@ -1,0 +1,41 @@
+@charset "utf-8";
+.wrapper {
+	background-color: #C5EB1B;
+	
+	height: 900px;
+	width: 1000px;
+	margin-right: auto;
+	margin-left: auto;
+}
+.header {
+	background-color: #F88700;
+	float: left;
+	height: 250px;
+	width: 1000px;
+}
+.leftHS {
+	background-color: #02C7F0;
+	float: left;
+	height: 400px;
+	width: 499px;
+}
+.RightHS {
+	background-color: #f11dd7;
+	float: left;
+	height: 400px;
+	width: 499px;
+}
+.footer {
+	font-family: Cambria, "Hoefler Text", "Liberation Serif", Times, "Times New Roman", "serif";
+	color: antiquewhite;
+	font-size: 20px;
+	text-decoration: underline;
+	background-color: #000000;
+	float: left;
+	height: 200px;
+	width: 1000px;
+}
+.asdf {
+	margin-right: auto;
+	margin-left: auto;
+}

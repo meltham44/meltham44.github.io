@@ -3,8 +3,8 @@
 # To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 
 layout: home
+title: So here we are...
 ---
-# So here we are...
 <marquee width="100%" direction="left" height ="25px">This is a marquee, cool huh? I'm learning HTML as I go along with this.</marquee>
 
 ## Welcome to meltham.digital

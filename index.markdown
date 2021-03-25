@@ -17,9 +17,9 @@ Ideas:
 
 To do:
 
-* Work on HTML
-* Jekyll design
-* Make good website.
+- [ ] Work on HTML
+- [ ] Jekyll design
+- [ ] Make good website.
 
 
 

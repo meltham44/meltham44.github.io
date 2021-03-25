@@ -16,11 +16,3 @@ You can find the source code for Jekyll at GitHub:
 
 
 [jekyll-organization]: https://github.com/jekyll
-
-
-
-
-
-
-
-###### Basic Jekyll port by [Hoi Kay](https://github.com/Vista2003)

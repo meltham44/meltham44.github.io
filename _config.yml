@@ -54,4 +54,3 @@ plugins:
 #   - vendor/gems/
 #   - vendor/ruby/
 permalink: /:categories/:year/:month/:day/:title/
-# Basic Jekyll port by Hoi Kay: (https://github.com/Vista2003)

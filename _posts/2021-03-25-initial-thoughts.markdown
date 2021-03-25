@@ -8,4 +8,4 @@ I DON'T LIKE IT
 
 I just don't get it, why does a post name have to be so specific?
 
-Gosh darn [Hoi Kay][https://github.com/Vista2003]
+Gosh darn [Hoi Kay](https://github.com/Vista2003)

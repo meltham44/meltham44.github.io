@@ -1,0 +1,19 @@
+@charset "utf-8";
+.div1 {
+    height: 40vh;
+    width: 1000px;
+	color: white;
+	font-size: 50px;
+	font-family: Consolas;
+	text-align: center;
+	line-height: 50px;
+}
+.div2 {
+    height: 40vh;
+    width: 1000px;
+	color: white;
+	font-size: 50px;
+	font-family: Consolas;
+	text-align: right;
+	line-height: 50px;
+}

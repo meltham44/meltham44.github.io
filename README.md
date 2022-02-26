@@ -1,3 +1,3 @@
-# meltham.digital
+# meltham.xyz
 
-Files for what was meltham.digital
+Files for what is meltham.xyz

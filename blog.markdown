@@ -7,8 +7,3 @@ title: Blog Home
 permalink: /blog/home
 ---
 ## Welcome to meltham.xyz
-
-###### Basic Jekyll port by [ME](https://github.com/meltham44)
-
-
-

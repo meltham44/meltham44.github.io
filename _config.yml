@@ -26,7 +26,7 @@ url: "meltham.xyz" # the base hostname & protocol for your site, e.g. http://exa
 github_username:  meltham44
 
 # Build settings
-theme: webrick
+theme: minima
 plugins:
   - jekyll-feed
   - jekyll-sitemap

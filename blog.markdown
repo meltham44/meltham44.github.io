@@ -4,6 +4,6 @@
 
 layout: home
 title: Blog Home
-permalink: /blog/home
+permalink: /blog
 ---
 ## Welcome to meltham.xyz, this is where I blog all my projects.

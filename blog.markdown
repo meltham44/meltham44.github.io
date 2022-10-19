@@ -6,4 +6,4 @@ layout: home
 title: Blog Home
 permalink: /blog
 ---
-## Welcome to meltham.xyz, this is where I blog all my projects.
+## Welcome to my blog, here is where I showcase what computing projects I get up to.

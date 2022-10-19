@@ -51,4 +51,4 @@ plugins:
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
-permalink: /blog/:categories/:title
+permalink: /:categories/:title

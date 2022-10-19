@@ -4,6 +4,6 @@
 
 layout: home
 title: Blog Home
-permalink: /blog/home
+permalink: /home
 ---
 ## Welcome to my blog, here is where I showcase what computing projects I get up to.

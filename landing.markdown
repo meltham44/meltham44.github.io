@@ -1,5 +1,5 @@
 ---
 layout: page
 title: Landing Page
-permalink: 
+permalink: /
 ---

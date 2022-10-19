@@ -18,7 +18,7 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: meltham.xyz
+title: meltham.xyz/blog
 description: >- # this means to ignore newlines until "baseurl:"
   Welcome to my blog. On here, I document projects that I work on and complete. Enjoy your stay.
 baseurl: "" # the subpath of your site, e.g. /blog
@@ -51,4 +51,4 @@ plugins:
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
-permalink: /blog/:categories/:title/
+permalink: /blog/:categories/:title

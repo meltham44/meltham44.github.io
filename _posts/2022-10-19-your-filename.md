@@ -1,5 +1,5 @@
 ---
-published: false
+published: true
 ---
 ## I accidentally deleted the posts folder
 

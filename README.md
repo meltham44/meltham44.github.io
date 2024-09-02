@@ -1,3 +1,3 @@
-# meltham.xyz
+# blog.meltham.xyz
 
-Files for my website, [meltham.xyz](https://meltham.xyz)
+Files for my blog, [blog.meltham.xyz](https://blog.meltham.xyz)

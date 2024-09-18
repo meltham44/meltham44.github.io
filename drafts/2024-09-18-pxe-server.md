@@ -1,7 +1,7 @@
 ---
 layout: post
 title: UEFI PXE Boot with dnsmasq and proxyDHCP
-date: 2024-09-18T00:00:00.000Z
+date: {}
 description: Setting up a PXE boot server without needing to touch a DHCP server
 tags:
   - services
@@ -50,4 +50,4 @@ Once the client has an IP address, it then responds to the proxyDHCP offer from 
 
 ![proxyDHCP request sent directly to the proxyDHCP server]({{site.baseurl}}/assets/img/pxe-server/proxy_request.png)
 
-The proxyDHCP server acknowledges this request by first informing the DHCP server 
+The proxyDHCP server acknowledges this request by first informing the DHCP server

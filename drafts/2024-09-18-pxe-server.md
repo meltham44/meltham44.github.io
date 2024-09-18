@@ -46,8 +46,11 @@ The client then sends a standard request packet to the DHCP server, requesting t
 
 ### proxyDHCP Request and Ack
 
-Once the client has an IP address, it then responds to the proxyDHCP offer from earlier to request the PXE data the DHCP server wasn't able to provide:
+Once the client has an IP address, it then responds to the proxyDHCP offer from earlier to request the PXE data the DHCP server wasn't able to provide. In this request, the client provides the same list of requested options as it did in it's initial Discover packet:
 
 ![proxyDHCP request sent directly to the proxyDHCP server]({{site.baseurl}}/assets/img/pxe-server/proxy_request.png)
 
-The proxyDHCP server acknowledges this request by first informing the DHCP server
+The proxyDHCP server acknowledges this request by first informing the DHCP server of the packet it is sending to the DHCP client, and then sends the acknowledgment to the client, with the source MAC address set as that of the DHCP server, so that the client understands it to be a continuation of the information already supplied by the DHCP server:
+
+![proxyDHCP ack packets to the DHCP server and client]({{site.baseurl}}/assets/img/pxe-server/proxy_acks.png)
+

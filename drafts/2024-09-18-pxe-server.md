@@ -1,7 +1,7 @@
 ---
 layout: post
 title: UEFI PXE Boot with dnsmasq and proxyDHCP
-date: 2024-09-19T00:00:00.000Z
+date: {}
 description: Setting up a PXE boot server without needing to touch a DHCP server
 tags:
   - services
@@ -68,8 +68,6 @@ sudo apt install dnsmasq syslinux-efi
 sudo systemctl stop dnsmasq
 ```
 
-![Installing dnsmasq and syslinux-efi]({{site.baseurl}}/assets/img/pxe-server/update_and_install.png)
-
 ### Creating directories
 
 The next step is to create a directory for the files that will be served by the PXE boot server. The directory can be anywhere and named anything, as long as the contents can be read by the dnsmasq user. I named it 'pxeboot'. Another directory called 'pxelinux.cfg' needs to made in this directory, which will contain files required for the PXE boot interface:
@@ -91,3 +89,57 @@ sudo cp /usr/lib/syslinux/modules/efi64/libutil.c32 /var/lib/pxeboot/
 ```
 
 You can also use sym-links should the files ever get updated.
+
+### Configure dnsmasq
+
+Next, dnsmasq needs to be configured so that it acts as a PXE boot server and a proxyDHCP server. The config file is located at:
+
+```
+/etc/dnsmasq.conf
+```
+
+I prefer to edit files in the terminal with nano:
+
+```
+sudo nano /etc/dnsmasq.conf
+```
+
+By default, everything is commented out in the config file so everything in it can be removed if desired. The following config can be copied into the file. Comments (#) have been added to explain watch each line does:
+
+```
+# PXE config
+
+# Disable DNS server - can be removed if dnsmasq is providing DNS
+port=0
+
+# Enable DHCP logging
+log-dhcp
+
+# Respond to PXE requests for the specified network + run as DHCP proxy - the network address (10.0.0.0 in this case) may need changing
+dhcp-range=10.0.0.0,proxy
+
+# Boot file supplied to clients
+dhcp-boot=syslinux.efi
+
+# Provide network boot option called "Network Boot".
+pxe-service=x86PC,"Network Boot",pxelinux
+
+# Enable TFTP server for PXE boot
+enable-tftp
+
+# PXE boot directory - double check the directory location
+tftp-root=/var/lib/pxeboot
+```
+
+Whilst dnsmasq is installed, it will tell your DNS resolver to resolve DNS queries through dnsmasq, essentially giving your system two DNS resolvers. If your system uses a DNS resolver other than dnsmasq, edit the following file and uncomment:
+
+```
+sudo nano /etc/default/dnsmasq
+DNSMASQ_EXCEPT=lo
+```
+
+### Adding OS files and setting up the menu
+
+In it's current state, dnsmasq can serve the syslinux files and clients can boot from them, but the menu doesn't work properly as it hasn't been configured yet. Here is what happens if you PXE boot with this current setup:
+
+![Booting from the PXE server before configuring the menu or any operating systems]({{site.baseurl}}/assets/img/pxe-server/boot.gif)

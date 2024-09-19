@@ -58,7 +58,9 @@ The DHCP client can then request the boot file from the PXE boot server via TFTP
 
 ## Installing and configuring
 
-To begin with, update the package lists and install both dnsmasq and syslinux-efi. I am using Debian in this example, where neither of the packages are pre-installed. dnsmasq hosts both the PXE server and proxyDHCP server, whereas syslinux-efi provides the files needed to provide an interface for PXE boot. Stop dnsmasq once installed so that configuration changes can be made safely. This may effect DNS resolution if using a distribution that relies it on by default - Debian does not so this is fine.
+### Installing dnsmasq and syslinux-efi
+
+To begin with, update the package lists and install both dnsmasq and syslinux-efi. I am using Debian in this example, where neither of the packages are pre-installed. dnsmasq hosts both the PXE server and proxyDHCP server, whereas syslinux-efi provides the files needed to provide an interface for PXE boot. Stop dnsmasq once installed so that configuration changes can be made safely. This may momentarily affect DNS resolution if using a distribution that relies it on by default - Debian does not so this is fine.
 
 ```
 sudo apt update
@@ -67,3 +69,25 @@ sudo systemctl stop dnsmasq
 ```
 
 ![Installing dnsmasq and syslinux-efi]({{site.baseurl}}/assets/img/pxe-server/update_and_install.png)
+
+### Creating directories
+
+The next step is to create a directory for the files that will be served by the PXE boot server. The directory can be anywhere and named anything, as long as the contents can be read by the dnsmasq user. I named it 'pxeboot'. Another directory called 'pxelinux.cfg' needs to made in this directory, which will contain files required for the PXE boot interface:
+
+```
+sudo mkdir /var/lib/pxeboot
+sudo mkdir /var/lib/pxeboot/pxelinux.cfg
+```
+
+### Copying syslinux files
+
+The following syslinux files need to be copied into the root of the PXE boot directory. These files provide the PXE boot interface as well as the dependencies needed to boot OS images:
+
+```
+sudo cp /usr/lib/SYSLINUX.EFI/efi64/syslinux.efi /var/lib/pxeboot/
+sudo cp /usr/lib/syslinux/modules/efi64/ldlinux.e64 /var/lib/pxeboot/
+sudo cp /usr/lib/syslinux/modules/efi64/menu.c32 /var/lib/pxeboot/
+sudo cp /usr/lib/syslinux/modules/efi64/libutil.c32 /var/lib/pxeboot/
+```
+
+You can also use sym-links should the files ever get updated.

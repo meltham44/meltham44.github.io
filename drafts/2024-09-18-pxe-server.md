@@ -20,7 +20,7 @@ Rather than replacing your ISP router with dedicated equipment that can do the j
 
 ### Discover
 
-The process starts as normal, with the client broadcasting a DHCP Discover packet requesting DHCP options 66 and 67, amongst others:
+The process starts as normal, with the client broadcasting a DHCP Discover packet requesting DHCP options 66 and 67, amongst others (packet 958):
 
 ![DHCP option requests from the client]({{site.baseurl}}/assets/img/pxe-server/client_discover_requests.png)
 
@@ -54,3 +54,16 @@ The proxyDHCP server acknowledges this request by first informing the DHCP serve
 
 ![proxyDHCP ack packets to the DHCP server and client]({{site.baseurl}}/assets/img/pxe-server/proxy_acks.png)
 
+The DHCP client can then request the boot file from the PXE boot server via TFTP.
+
+## Installing and configuring
+
+To begin with, update the package lists and install both dnsmasq and syslinux-efi. I am using Debian in this example, where neither of the packages are pre-installed. dnsmasq hosts both the PXE server and proxyDHCP server, whereas syslinux-efi provides the files needed to provide an interface for PXE boot. Stop dnsmasq once installed so that configuration changes can be made safely. This may effect DNS resolution if using a distribution that relies it on by default - Debian does not so this is fine.
+
+```
+sudo apt update
+sudo apt install dnsmasq syslinux-efi
+sudo systemctl stop dnsmasq
+```
+
+![Installing dnsmasq and syslinux-efi]({{site.baseurl}}/assets/img/pxe-server/update_and_install.png)

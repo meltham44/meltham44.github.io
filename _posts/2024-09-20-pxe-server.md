@@ -178,7 +178,7 @@ The final step is to create the config file that syslinux requires to create the
 sudo nano /var/lib/pxeboot/syslinux.cfg/default
 ```
 
-In this file, the below config can be pasted which will work with the Debian installer that was just setup. Make sure to remove the comments (#) as the config doesn't work with them in:
+In this file, the below config can be pasted which will work with the Debian installer that was just setup:
 
 ```
 UI menu.c32

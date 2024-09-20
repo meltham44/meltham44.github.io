@@ -31,27 +31,27 @@ For comparison with a device not wanting to PXE boot, here is what my Pixel 7 re
 
 ### Offer
 
-Both the DHCP server and the proxyDHCP server broadcast a DHCP Offer packet in response. The packet from the proxyDHCP server supplies the IP address of the PXE server (itself), as well as the name of file the client needs to request:
+Both the DHCP server and the proxyDHCP server broadcast a DHCP Offer packet in response. The packet from the proxyDHCP (959) server supplies the IP address of the PXE server (itself), as well as the name of file the client needs to request:
 
 ![DHCP offer from proxyDHCP]({{site.baseurl}}/assets/img/pxe-server/proxy_offer.png)
 
-The packet from the DHCP server only supplies an IP address for the client, as well other standard IP addressing information:
+The packet from the DHCP server (963) only supplies an IP address for the client, as well other standard IP addressing information:
 
 ![DHCP offer from the DHCP server]({{site.baseurl}}/assets/img/pxe-server/dhcp_offer.png)
 
 ### Request and Ack with DHCP server
 
-The client then sends a standard request packet to the DHCP server, requesting the IP address it was offered, to which it receives a standard acknowledgment:
+The client then sends a standard request packet to the DHCP server (1114), requesting the IP address it was offered, to which it receives a standard acknowledgment (1115):
 
 ![DHCP request and ack packets between client and DHCP server]({{site.baseurl}}/assets/img/pxe-server/client_dhcp_server_request_and_ack.png)
 
 ### proxyDHCP Request and Ack
 
-Once the client has an IP address, it then responds to the proxyDHCP offer from earlier to request the PXE data the DHCP server wasn't able to provide. In this request, the client provides the same list of requested options as it did in it's initial Discover packet:
+Once the client has an IP address, it then responds to the proxyDHCP offer from earlier to request the PXE data the DHCP server wasn't able to provide. In this request (1122), the client provides the same list of requested options as it did in it's initial Discover packet:
 
 ![proxyDHCP request sent directly to the proxyDHCP server]({{site.baseurl}}/assets/img/pxe-server/proxy_request.png)
 
-The proxyDHCP server acknowledges this request by first informing the DHCP server of the packet it is sending to the DHCP client, and then sends the acknowledgment to the client, with the source MAC address set as that of the DHCP server, so that the client understands it to be a continuation of the information already supplied by the DHCP server:
+The proxyDHCP server acknowledges this request by first informing the DHCP server of the packet it is sending to the DHCP client (1123), and then sends the acknowledgment to the client (1127), with the source MAC address set as that of the DHCP server, so that the client understands it to be a continuation of the information already supplied by the DHCP server:
 
 ![proxyDHCP ack packets to the DHCP server and client]({{site.baseurl}}/assets/img/pxe-server/proxy_acks.png)
 

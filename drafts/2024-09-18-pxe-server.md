@@ -3,6 +3,7 @@ layout: post
 title: UEFI PXE Boot with dnsmasq and proxyDHCP
 date: 2024-09-20
 description: Setting up a PXE boot server without needing to touch a DHCP server
+toc: true
 tags:
   - services
 ---

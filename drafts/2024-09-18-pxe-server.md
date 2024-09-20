@@ -1,7 +1,7 @@
 ---
 layout: post
 title: UEFI PXE Boot with dnsmasq and proxyDHCP
-date: 2024-09-19T00:00:00.000Z
+date: {}
 description: Setting up a PXE boot server without needing to touch a DHCP server
 tags:
   - services
@@ -79,7 +79,7 @@ sudo mkdir /var/lib/pxeboot/pxelinux.cfg
 
 ### Copying syslinux files
 
-The following syslinux files need to be copied into the root of the PXE boot directory. These files provide the PXE boot interface as well as the dependencies needed to boot OS images:
+The following syslinux files need to be copied into the root of the PXE boot directory. These files provide the PXE boot interface as well as the dependencies needed to boot operating system (OS) images:
 
 ```
 sudo cp /usr/lib/SYSLINUX.EFI/efi64/syslinux.efi /var/lib/pxeboot/
@@ -131,7 +131,7 @@ enable-tftp
 tftp-root=/var/lib/pxeboot
 ```
 
-Whilst dnsmasq is installed, it will tell your DNS resolver to resolve DNS queries through dnsmasq, essentially giving your system two DNS resolvers. If your system uses a DNS resolver other than dnsmasq, edit the following file and uncomment:
+Whilst dnsmasq is installed, and your system uses an alternate DNS resolver, it will tell your DNS resolver to resolve DNS queries through dnsmasq, essentially giving your system two DNS resolvers. If your system uses a DNS resolver other than dnsmasq, edit the following file and uncomment:
 
 ```
 sudo nano /etc/default/dnsmasq
@@ -143,3 +143,87 @@ DNSMASQ_EXCEPT=lo
 In it's current state, dnsmasq can serve the syslinux files and clients can boot from them, but the menu doesn't work properly as it hasn't been configured yet. Here is what happens if you PXE boot with this current setup:
 
 ![Booting from the PXE server before configuring the menu or any operating systems]({{site.baseurl}}/assets/img/pxe-server/boot.gif)
+
+This is because syslinux needs to be told to create the menu and populate it with OS entries, so you'll need to download an OS. To start with, download an OS which specifically supports network booting - the latest Debian netboot installer can be found at:
+
+[https://d-i.debian.org/daily-images/amd64/daily/netboot/](https://d-i.debian.org/daily-images/amd64/daily/netboot/)
+
+The file needed will be the 'netboot.tar.gz' archive and can be downloaded in the command line with:
+
+```
+wget https://d-i.debian.org/daily-images/amd64/daily/netboot/netboot.tar.gz
+```
+
+__If you're having DNS issues, it may be because your system uses dnsmasq for resolving DNS queries so you'll need to start dnsmasq up again with:__
+```
+sudo systemctl restart dnsmasq
+```
+
+Next, the downloaded archive can be extracted using:
+
+```
+tar -xzf netboot.tar.gz
+```
+
+And then the Debian install files can be copied to the pxeboot directory like so:
+
+```
+sudo cp -r debian-installer /var/lib/pxeboot
+```
+
+The final step is to create the config file that syslinux requires to create the menu and locate OS files. This file needs to be called 'default' and needs to be placed in the 'pxelinux.cfg' directory that was created earlier:
+
+```
+sudo nano /var/lib/pxeboot/syslinux.cfg/default
+```
+
+In this file, the below config can be pasted which will work with the Debian installer that was just setup. Make sure to remove the comments (#) as the config doesn't work with them in:
+
+```
+UI menu.c32
+LABEL Debian Net Boot
+        MENU LABEL Debian
+        KERNEL debian-installer/amd64/linux
+                append initrd=debian-installer/amd64/initrd.gz
+        TEXT HELP
+                Debian installer boot media.
+        ENDTEXT
+```
+
+In it's current state, the config only has the Debian OS in it. More can be added by simply copying everything except 'UI menu.c32', pasting it on a new line and modifying it to meet the requirements of the new OS that is being added. The config doesn't allow comments in it so heres a breakdown of the config:
+
+``UI menu.c32`` - launches the menu.
+
+``LABEL Debian Net Boot`` - creates a new menu entry, this name does not appear anywhere, it only acts as a reference for you.
+
+``MENU LABEL Debian`` - creates a menu entry with the label "Debian".
+
+``KERNEL debian-installer/amd64/linux`` - this specifies the kernel file to load, PXE boot directory is considered the root directory for syslinux.
+
+``append initrd=debian-installer/amd64/initrd.gz`` - specifies kernel arguments, only one in this case which is specifying the initrd file.
+
+``TEXT HELP`` and ``ENDTEXT`` - mark the beginning and end of the entry description, mulitple lines are allowed between these two directives.
+
+### Test it out!
+
+The last thing left to do is to restart dnsmasq to ensure all configuration changes are applied and test it out:
+
+```
+sudo systemctl restart dnsmasq
+```
+
+![Debian installer booting from PXE server]({{site.baseurl}}/assets/img/pxe-server/boot_complete.gif)
+
+The Debian installer looks slightly different when booted over netboot. An internet connection is required to complete the installation.
+
+## Conclusion and reflection
+
+I have found this PXE server to be handy when regularly installing operating systems on hardware and virtual machines, it saves time that may be spent looking for an image and then a USB drive to flash it on. It serves as a convenient place to install operating systems from. It isn't without it's faults however, the following are some improvements I would like to look into and implement:
+
+- Multi firmware and architecture support - at the moment, the server only supports UEFI firmware on x86 devices. Ideally, I would like it to at least support legacy BIOS systems too for older machines and operating systems.
+
+- HTTP file transfer - the server currently uses TFTP to transfer files which is rather slow, the Debian initrd file is only 30MB and I'm on a gigabit network so it has the capability of being much faster. I have read that it is possible to implement HTTP for faster file transfers.
+
+- [iPXE](https://ipxe.org/start) - iPXE can be used as an alternative to syslinux. It has the ability to be scripted so that any extra setup can be completed before the OS is booted. I have also read that it may have the ability to boot directly from .iso files which may save hassle when configuring the kernel for boot.
+
+I aim to look into these and may provide an update post in future. Enjoy your PXE server!
